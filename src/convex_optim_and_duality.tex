@@ -1,0 +1,43 @@
+% -*- root: Main.tex -*-
+\section{Convex Optimization \& SVMs}
+% \subsection*{Duality}
+% \item{\textbf{Duality:}}
+\textbf{Duality: } Primal: $min_{\omega} f(\omega)$ s.t. $g_{i}(\omega) = 0$ and $h_{j}(\omega) \leq 0$
+Dual: $max_{\lambda, \alpha}\theta(\lambda, \alpha)$ s.t. $\alpha_{j} \geq 0$
+\\
+Weak duality: $\theta(\lambda, \alpha) = inf_{\omega \in \mathbb{R}^{d}} \mathcal{L}(\omega, \lambda, \alpha \color{red}{\geq 0)}$ $\leq \mathcal{L}(\omega^{*}, \lambda, \alpha) = f(\omega^{*}) + \sum_{i}\lambda_{i}g_{i}(\omega^{*})$ $\color{red}{(= 0)}$ $+ \sum_{j}\alpha_{j}h_{j}(\omega^{*}) \color{red}{(\leq 0)}$ $\leq f(\omega^{*})$
+\\
+Slater's condition (check if strong duality holds): 
+$\exists \omega$ s.t. $g_i(\omega) = 0, h_i({\omega}) \color{red}{<}$ $0$ $\forall i, j$ \\
+Strong Duality (if Slater's holds, convex $f$, non-convex $g$, linear $h$):
+1) $\omega^{*} = min_{\omega} \mathcal{L}(\omega, \lambda^{*}, \alpha^{*})$
+2) Complementary slackness: $\alpha_{j}h_{j}(\omega^{*}) = 0$, $\forall j$
+
+% \subsection*{SVM (linearly separable case)}
+% \item{\textbf{Linearly separable SVM:}}
+\textbf{Linearly separable SVM: } 
+Primal: $max_{w, w_{0}} 2m(w, w_{0}) = \frac{|w^{T}x^{+} - w^{T}x^{-}|}{||w||} = max_{w, w_0} \frac{2}{||w||} = min_{w, w_0} \frac{1}{2}||w||^2$ for \textcolor{red}{random} $x^{+}, x^{-}$; $y_i(w^{T}x_{i}+w_{0}) \geq 1, \forall i$
+\\
+Slater's: take $(\gamma w, \gamma w_0)$, $\gamma y_i(w^{T}x_{i} + w_{0}) > 1$
+\\
+Dual: $\theta(\alpha)$ = $min_{w, w_0}\mathcal{L}(w, w_0, \alpha)$ s.t. $\alpha_i \geq 0, \forall i$ = $min_{w, w_0}\frac{1}{2}||w||^2 + \sum_{i}\alpha_i(1 - y_i(w^T x_i + w_0)) \Leftrightarrow max_{\alpha}-\frac{1}{2}\sum_{ij}\alpha_i \alpha_j y_i y_j x_{i}^{T}x_{j} + \sum_{i}\alpha_i$ ($\sum_{i}\alpha_i y_i = 0$; $w^{*} = \sum_{i}\alpha_i y_i x_i$; $w_{0}^{*} = -\frac{1}{2}({w^{*}}^{T}x^{+} - {w^{*}}^{T}x^{-})$)
+\\
+Compl. slack.: $\alpha_i^{*}(1 - y_i({w^{*}}^{T} + w_{0}^{*})) = 0$ \Rightarrow $\alpha_{i}^{*} = 0  \Rightarrow w^{*}$ is a sparse comb. of support vectors \\
+% \subsection*{SVM (not linearly separable)}
+% \item{\textbf{Linearly inseparable SVM:}}
+\textbf{Linearly inseparable SVM: } 
+Primal: $min_{w, w_0, \xi} \frac{1}{2}||w||^2+C\sum_{i}\xi_{i}$; $y_i(w^{T}x_{i}+w_{0}) \geq 1 - \xi_{i}$; $\xi_{i} \geq 0$; \textcolor{red}{larger} $\color{red}{C}$ \textcolor{red}{means narrower margin, fewer neglected samples, and fewer support vectors.}
+\\
+Dual: 
+$L(w,w_0,\xi,\alpha,\beta)=\frac{1}{2}w^Tw + C\sum_{i=1}^n\xi_i - \sum_{i=1}^{n}\beta_i\xi_i -\sum_{i=1}^{n} \alpha_i(y_i(w^T\phi(x_i) + w_0) -1+\xi_i)$; $0 \leq \alpha_i$ $\color{red}{\leq C}$; $\xi_{i}^{*} = max(0, 1 - y_i({w^{*}^{T} x_i + w_{0}^{*}}))$
+\\
+% \subsection*{SVM Kernelization}
+% \item{\textbf{Kernelization:}}
+\textbf{Kernelization: } 
+Dual: $max_{\alpha}-\frac{1}{2}\sum_{ij}\alpha_i \alpha_j y_i y_j \phi(x_{i})^{T}\phi(x_{j}) + \sum_{i}\alpha_i$; ${w^{*}}^{T}\phi(x) = \sum_{i} \alpha_{i}^{*}y_i$\sout{$\phi(x_{i})^{T}\phi(x)$}$k(x_i, x)$ \\
+% TODO: kernel separation
+% \subsection*{Extensions}
+% \item{\textbf{Extensions:}}
+\textbf{Extensions: } 
+SVM Regression: $\epsilon$-sensitive loss: $max(0, |y - f(x)| - \epsilon)$; Primal: $min_{w, \xi, \hat{\xi}} ||w||^{2} + C \sum_{i}(\xi_{i} + \hat{\xi}_{i})$ s.t. $(w^T x_i + w_0) - y_i \leq \epsilon + \xi_i$, $y_i - (w^T x_i + w_0) \leq \epsilon + \hat{\xi}_{i}$, $\xi_{i}, \hat{\xi}_{i} \geq 0$; Dual: $max_{\alpha, \hat{\alpha}}\sum_i (\hat{\alpha} - \alpha)y_i - \epsilon\sum_i (\hat{\alpha} + \alpha) - \frac{1}{2}\sum_{i, j}(\hat{\alpha}_{i} - \alpha_{i})(\hat{\alpha}_{j} - \alpha_{j})x_i x_j$ s.t. $0 \leq \alpha_i, \hat{\alpha}_{i} \leq C$, $\sum_{i, j}(\hat{\alpha}_{i} - \alpha_{i}) = 0$, $\forall i$;
+Multi-class SVM: Constraint: $\forall y \in \{1, ..., M\}$, $\forall x_i \in X$, $(w_{y_i}^{T}x_i + w_{y_i, 0}) - max_{y \neq y_i}(w_{y}^{T}x_i + w_{y, 0}) \geq 1 - \xi_i$; Structural SVM: Constraint: $w^T \Phi(y_i, x_i) - max_{y \neq y_i}[\Delta(y, y_i) + w^T \Phi(y, x_i)] \geq -\xi_i$, $\forall x_i \in X$

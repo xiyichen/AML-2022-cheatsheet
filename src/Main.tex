@@ -1,0 +1,103 @@
+\documentclass[11pt,landscape,a4paper,fleqn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{tikz}
+\usepackage{bbm}
+\usetikzlibrary{shapes,positioning,arrows,fit,calc,graphs,graphs.standard}
+\usepackage[nosf]{kpfonts}
+\usepackage[t1]{sourcesanspro}
+%\usepackage[lf]{MyriadPro}
+%\usepackage[lf,minionint]{MinionPro}
+\usepackage{multicol}
+\usepackage{wrapfig}
+\usepackage[top=2mm,bottom=2mm,left=2mm,right=2mm]{geometry}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{microtype}
+\usepackage{paralist} % for compacter lists
+\usepackage{bm}
+\usepackage{titlesec}
+
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
+
+
+\let\bar\overline
+
+\definecolor{myblue}{cmyk}{1,.72,0,.38}
+\definecolor{myorange}{cmyk}{0.9,0,1,0.2}
+\definecolor{myred}{cmyk}{0.7,0,0.7,0.6}
+
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
+
+\everymath\expandafter{\the\everymath \color{myblue}}
+%\everydisplay\expandafter{\the\everydisplay \color{myblue}}
+
+\renewcommand{\baselinestretch}{.8}
+\pagestyle{empty}
+
+\global\mdfdefinestyle{header}{%
+linecolor=gray,linewidth=1pt,%
+leftmargin=0mm,rightmargin=0mm,skipbelow=0mm,skipabove=0mm,
+}
+
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {.1ex}%
+                                {.1ex}%x
+	                                {\color{myred}\sffamily\small\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{1}{0mm}%
+                                {.1ex}%
+                                {.1ex}%x
+                                {\color{myorange}\sffamily\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{1}{0mm}%
+	{.2ex}%
+	{.2ex}%x
+	{\sffamily\bfseries}}
+
+
+% math helpers
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\E}{\mathbb{E}}
+
+\makeatother
+\setlength{\parindent}{0pt}
+
+\newcommand{\imp}[1]{\boxed{\boldsymbol{#1}}} % Einrahmung und Fett
+\newcommand{\w}{\omega}
+\newcommand{\ud}{\,\mathrm{d}}% Differential
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\X}{\mathcal{X}}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{colonequals}
+\usepackage{xcolor}
+\usepackage{ulem}
+\usepackage{graphicx}
+
+% compress equations
+%\medmuskip=0mu
+%\thinmuskip=0mu
+%\thickmuskip=0mu
+
+\begin{document}
+\small
+\begin{multicols*}{4}
+        \input{basics.tex}
+        \input{anormaly_detection.tex}
+        \input{density_estimation.tex}
+        \input{regression.tex}
+        \input{gaussian_processes.tex}
+        \input{ensemble_methods.tex}
+	\input{convex_optim_and_duality.tex}
+        \input{deep_learning.tex}
+        \input{non-parametric_bayesian_inference.tex}
+        \input{pac_learning.tex}
+	
+% -*- root: Main.tex -*-
+
+
+\end{multicols*}
+\end{document}

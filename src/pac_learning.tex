@@ -1,0 +1,16 @@
+% -*- root: Main.tex -*-
+\section{PAC Learning}
+Algorithm $\mathcal{A}$ can learn $c \in \mathcal{C}$ if $\exists poly(\cdot,\cdot,\cdot)$, s.t. (1) $\forall$ dist. D on X and (2) $\forall \epsilon \in [0,\frac{1}{2}], \delta \in [0,\frac{1}{2}]$, $\mathcal{A}$ outputs $\hat{c} \in H$ given a sample of size at least $poly(\frac{1}{\epsilon},\frac{1}{\delta}, size(c))$ s.t. $p_{Z\sim D^n}(\mathcal{R}(\hat{c}) \leq \epsilon + inf_{c\in \mathcal{C}}\mathcal{R}(c)) \geq 1 - \delta$; $\mathcal{A}$ is an efficient PAC algorithm if it runs in polynomial of $\frac{1}{\epsilon}$ and $\frac{1}{\delta}$. \\
+$\mathcal{C}$ is (efficiently) PAC-learnable from $\mathcal{H}$ if there is an algorithm $\mathcal{A}$ that learns
+$\mathcal{C}$ from $\mathcal{H}$. \\
+\textbf{Rectangle Problem: } $n \geq \frac{4}{\epsilon}ln\frac{4}{\delta}$, suffices to prove $p(\mathcal{R}(\hat{R})\leq \epsilon) \geq p(\hat{R}IG) \geq 1-4exp(-\frac{n\epsilon}{4})$; Proof: $p(\text{¬} \hat{R}IG)\leq \sum_l \prod_i p(x_i \notin T_{l}^{\epsilon}) = 4(1-\frac{\epsilon}{4})^n \leq 4exp(-\frac{n\epsilon}{4})$; Generalization: for $n \geq \frac{1}{\epsilon}(log|\mathcal{H}|+log\frac{1}{\delta})$, $\hat{R}(\hat{h}) = 0 \Rightarrow$ 1) prove $|\mathcal{H}|(1-\epsilon)^n \leq \delta$; 2) prove $p(\hat{R}(\hat{h}) \geq \epsilon) \leq |\mathcal{H}|(1-\epsilon)^n$: $p(\mathcal{R}(\hat{h}) \geq \epsilon) \leq p(\exists h \in \mathcal{H}: \hat{R}(h) = 0 \text{ and } \mathcal{R}(h) \geq \epsilon) \leq \sum_{h\in \mathcal{H}} p(\hat{R}(h) = 0 | \mathcal{R}(h) \geq \epsilon) p(\mathcal{R}(h) \geq \epsilon) \leq \sum_{h} p(\hat{R}(h) = 0 | \mathcal{R}(h) \geq \epsilon) \leq \sum_{h} (1-\epsilon)^n$
+
+\textbf{VC Dimension: } $VC(\mathcal{C})$ = max dimension $n$ s.t. $\exists S \subseteq X, |S| = n$ and S can be shattered \textcolor{red}{(any subset is bounded)} by $\mathcal{C}$; e.g. $VC(\text{intervals}) = 2$. \\
+\textbf{Hoeffding's Theorem: } 
+$p(S_n - \mathbb{E}_XS_n \geq t) \geq exp(-\frac{2t^2}{\sum_i (b_i - a_i)^2})$; Proof: 1) $p(x \geq t) = p(exp(sX) \geq exp(st)) \leq \frac{\mathbb{E}_X [exp(sX)]}{exp(st)}$; 2) $p(S_n - \mathbb{E}_XS_n \geq t) \leq e^{-st}\mathbb{E}_X[exp(s\sum_i (X_i - \mathbb{E}X_i))] = e^{-st}\prod_i\mathbb{E}_{X_i}[exp(s(X_i-\mathbb{E}X_i))] \leq e^{-st}\prod_iexp(s^2(b_i-a_i)^2/8)$, $s = \frac{4t}{\sum_i(b_i-a_i)^2}$
+\\
+\textbf{VC Inequality (distribution independent): } For finite $\mathcal{C}$, $p(\mathcal{R}(\hat{c}_n^*) - inf_{c \in \mathcal{C}}(\mathcal{R}(c)) \geq \epsilon) \leq p(\mathcal{R}(\hat{c}_n^*) - \hat{\mathcal{R}}(\hat{c}_n^*) + \hat{\mathcal{R}}(\hat{c}_n^*) - \mathcal{R}(c^*) \geq \epsilon) \leq p(2sup_{c}|\hat{\mathcal{R}}_n(c) - \mathcal{R}(c)| > \epsilon)$
+% ; For infinite $\mathcal{C}$: $\leq 9n^{VC_\mathcal{C}}exp(-\frac{n\epsilon^2}{32})$; 
+% For finite $\mathcal{C}$: 
+$\leq \sum_{c \in \mathcal{C}}p(|\hat{\mathcal{R}}_n(c) - \mathcal{R}(c)| > \epsilon) \leq 2|\mathcal{C}|exp(-2n\epsilon^2) \Rightarrow R(c)$ \textcolor{red}{exp.} $ \leq \hat{R}_n(c) $ \textcolor{red}{emp.} $ + \sqrt{\frac{ln |\mathcal{C}| - ln(\delta / 2)}{2n}}$
+% , using Hoeffding's: $p(S_n - \mathbb{E}_XS_n \geq t) \geq exp(-\frac{2t^2}{\sum_i (b_i - a_i)^2})$ for $b_i = 1, a_i = 0$

@@ -1,0 +1,16 @@
+% -*- root: Main.tex -*-
+\section{Gaussian Processes}
+% \subsection*{Prediction with GP}
+\textbf{Prediction with GP: } 
+% \item{\textbf{Prediction with GP:}}
+$p(y_{n+1}|x_{n+1}, X, y) = \mathcal{N}(\color{red}{k(x_{n+1}, X)^T(k(X, X)+\sigma^2 I)}\color{red}{y}$,
+$\color{blue}{k(x_{n+1} x_{n+1})+$\\$\color{blue}{\sigma^2-k(x_{n+1}, X)^T(k(X,X)+\sigma^2I)^{-1}}k(x_{n+1}, X)}$$)$
+% \subsection*{Kernels}
+\\
+\textbf{Kernels: } 
+% \item{\textbf{Kernels:}}
+Properties: 1) $k(x, x') = k(x', x)$ 2) $x^TKx \geq 0 \forall x$ 3) $k(x, x') = \phi(x)\phi(x')$; Composition: addition, multiplication, scaling, $k(x,x') = f(k_1(x,x')) = f(x)k_1(x,x')f(x')$ for positive polynomial or exponential $f$; Constructions: 1) $k(x, x') = k_1(x, x') + k_2(x, x')$, Proof: $\exists$ symmetric gram matrices $K_1, K_2$ s.t. $x^TK_1x, x^TK_2x \geq 0 \Rightarrow x^TKx = x^T(K_1+K_2)x \geq 0$ \\
+2) $k(x, x') = k_1(x, x')k_2(x, x')$, Proof: $k_1(x, x')k_2(x, x') = \Sigma_{i,j}(f_i(x)g_j(x))(f_i(x')g_j(x')) = \Sigma_{i,j}h_{i,j}(x)h_{i,j}(x') = \phi(x)\phi(x')$ \\
+3) $k(x, x') = exp(k_1(x, x'))$, Proof: 
+$\sum_{i=1}^{m}\frac{k_1(x, x')^r}{r!} \rightarrow k(x, x')$ as m $\rightarrow \infty$ \\
+4) RBF: $k(x, x') = exp(-\frac{1}{2\gamma^2}||x-x'||_2^2) = exp(-\frac{1}{2\gamma^2}||x||_2^2)exp(\frac{1}{\gamma^2}x^Tx')exp(-\frac{1}{2\gamma^2}||x'||_2^2)$ \textcolor{red}{(larger bandwidth $\color{red}{\gamma} \rightarrow$ smoother curves)}

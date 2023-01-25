@@ -1,0 +1,24 @@
+% -*- root: Main.tex -*-
+\section{Anormaly Detection}
+% \subsection*{Dimensionality Reduction with PCA}
+% \item{\textbf{Dimensionality Reduction:}}
+\textbf{Dimensionality Reduction: } 
+Simpler case: d = 1 ($\pi: R^D \rightarrow R$); Assume  $\pi(X) = u_1 X$ with $||u_1||^2$ = 1: Mean of proj. data: $u_1^T \Bar{X}$ ($\Bar{X} = \frac{1}{n}\sum_{x \in X}x$); Variance of proj. data: $\frac{1}{n}\sum_{i \leq n}(u_1^T \Bar{X} - u_1^T x_i)^2$ = $u_1^T Cov(X) u_1 := u_1^T S u_1$
+\\
+Objective: $max_{u_1 \in R^D} u_1^T S u_1$ s.t. $||u_1||^2 = 1$
+\\
+Lagrangian: $\mathcal{L}(u_1) = u_1^T S u_1 + \lambda (1 - u_1^T u_1)$; $\frac{\partial\mathcal{L}}{\partial u_1} = 0 \Rightarrow S u_1 = \lambda u_1$; $u_1^* S u_1^* = \lambda$
+\\
+% \subsection*{Gaussian Mixture Models}
+% \item{\textbf{GMMs:}}
+\textbf{GMM: } 
+$max_{\pi_k, \mu_k, \Sigma_k} log(p(x)) = log(\sum_k \pi_k \mathcal{N}(x|\mu_k, \Sigma_k))$ s.t. $\sum_{k=1}^{K} \pi_k = 1$, $\Sigma_k$ is p.d.;
+% \textcolor{red}{(intractable)}; 
+$log p_\theta (X) = \mathbb{E}_{z \sim q}[log p_\theta (X)] = $ $\color{blue}{\mathbb{E}_z[log p_\theta(X, z)]}$ $\color{blue}{- \mathbb{E}_z[log q(z)]}$ $+$ $\color{red}{\mathbb{E}_z[log(\frac{q(z)}{p_\theta (z|X)})]}$ $:=$ $\color{blue}{M(q, \theta)}$ $+$ $\color{red}{E(q, \theta)}$ \textcolor{red}{(intractable)}.
+\\
+% \subsection*{Expectation-Maximization}
+% \item{\textbf{EM:}}
+\textbf{EM: } 
+Properties: 1) $E(q, \theta) \geq 0$, $M(q, \theta) \leq log p_\theta(X)$
+2) $E(q^*, \theta) = 0$ for $q^* = min_q E(q, \theta) = p_\theta (z|X)$, $M(q^*, \theta) = log p_\theta(X)$
+3) $log p_\theta (X) = M(q, \theta) + E(q, \theta) = M(q^*, \theta) + 0 = \mathbb{E}_{z \sim q^*}[log p_\theta(X, z)] - \mathbb{E}_{z \sim q^*}[log q(z)] \leq max_\theta M(q^*, \theta)$; E-step: $q_t^* = min_q E(q, \theta^t)$; M-step: $\theta^{(t+1)} = max_\theta M(q_t^*, \theta)$

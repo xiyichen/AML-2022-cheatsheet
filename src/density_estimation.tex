@@ -1,0 +1,47 @@
+% -*- root: Main.tex -*-
+\section{Density Estimation}
+% \subsection*{Fisher Information \& Cramér–Rao Bound}
+% \item{\textbf{Fisher Info \& Cramér–Rao Bound:}}
+\textbf{Fisher Info \& Cramér–Rao Bound: } 
+$E_X[(\theta - \hat{\theta})^2] \geq \frac{(\frac{\partial}{\partial \theta} bias(\hat{\theta}) + 1)^2}{I_n(\theta)} + bias^2(\hat{\theta})$, where \\
+%\frac{1}{In(\theta)}$, where \\
+$I_n(\theta) = n I_1(\theta) = \mathbb{E}[(\frac{\partial}{\partial \theta}log p(x | \theta))^2] = \mathbb{E}[\wedge ^ 2]$, $\wedge := \frac{\frac{\partial}{\partial \theta}p(x | \theta)}{p(x | \theta)}$;
+Properties: 1) $\mathbb{E}_{X} [\wedge] = \int p(X|\theta) \frac{\frac{\partial}{\partial \theta}p(x | \theta)}{p(x | \theta)} dX = \frac{\partial}{\partial \theta} \int p(X|\theta) dX = 0$
+2) $\mathbb{E}_{X} [\wedge \hat{\theta}] = \frac{\partial}{\partial \theta} \int p(X|\theta) \hat{\theta}(X) dX = \frac{\partial}{\partial \theta} \mathbb{E}_X [\hat{\theta}] = \frac{\partial}{\partial \theta} bias(\hat{\theta}) + 1$ \\
+Proof: $Cov(\wedge, \hat{\theta}) = \mathbb{E}_X[(\wedge - \mathbb{E}_X[\wedge])(\hat{\theta} - \mathbb{E}_X[\hat{\theta}])]$ = $\mathbb{E}[\wedge \hat{\theta}] - \mathbb{E}[\wedge]\mathbb{E}[\hat{\theta}] = \frac{\partial}{\partial \theta} bias(\hat{\theta}) + 1$ \\
+$Cov(\wedge, \hat{\theta})^2 \leq \mathbb{E}_X[(\wedge - \mathbb{E}_X[\wedge])^2]\mathbb{E}_X[(\hat{\theta} - \mathbb{E}_X[\hat{\theta}])^2] = \mathbb{E}_X[\wedge^2]\mathbb{E}_X[(\hat{\theta} - \theta - \mathbb{E}[\hat{\theta}] + \theta)^2] = \mathbb{E}[\wedge^2](\mathbb{E}[(\hat{\theta} - \theta)^2] - bias^2(\hat{\theta}))$
+\\
+% \subsection*{Desiderata for Estimators}
+% \subsection*{Approaches}
+% \item{\textbf{Approaches:}}
+\textbf{Approaches: } 
+% $\mathbb{E}[(\hat{\theta}_n - \theta)^2] = \mathbb{E}[(\mathbb{E}[\hat{\theta}_n] - \theta)^2] + \mathbb{E}[(\hat{\theta}_n - \mathbb{E}[\hat{\theta}_n])^2]$ = \textcolor{red}{bias$\color{red}{^2}$ + variance} \\
+Frequentism (MLE): Desiderata, asymptotically unbiased but large variance (out-performed by biased estimators, e.g. shrinked estimators and Stein’s). \\
+Frequentism fulfills the desiderata: 1) Asymptotic Efficiency: $lim_{n \rightarrow \infty} \mathbb{E}[(\hat{\theta} - \theta)^2] = \frac{1}{I_{n}(\theta)}$ 2) Consistency $lim_{n \rightarrow \infty} p(|\hat{\theta}_n - \theta| > \epsilon) = 0$, $\forall \epsilon > 0$ 3) Asymptotic Normality $\hat{\theta}_n \rightarrow \mathcal{N}(\theta, \sigma^2), \sigma > 0$
+\\ 
+Bayesianism: Prior induces a regularization effect that raises the bias but decreases the variance; To avoid intractability issues, use conjugate priors. \\
+Statistical Learning: tractable with low bias and variance, but hard to select model.
+\\
+% \subsection*{Logistic Regression, Frequentist Approach}
+% \item{\textbf{Logistic Regression, Frequentism:}}
+\textbf{Logistic Regression, Frequentism: } 
+$\mathbb{E}[y|X=x, \hat{\theta}] = p(y=1 | X=x, \hat{\theta}) = \frac{p(X=x | y=1, \hat{\theta})p(y=1|\hat{\theta})}{p(X=x | y=1, \hat{\theta})p(y=1|\hat{\theta})+p(X=x | y=0, \hat{\theta})p(y=0|\hat{\theta})} = \frac{1}{1+\frac{p(X=x | y=0, \hat{\theta})}{p(X=x | y=1, \hat{\theta})}} = \frac{1}{1+exp(-w^Tx+w_0)} = \sigma(w^Tx+w_0)$
+\\
+% \subsection*{LR, Bayesian Approach}
+% \item{\textbf{LR Regression, Bayesianism:}}
+\textbf{LR, Bayesianism: } 
+Prior: $p(w) = \mathcal{N}(w | m_0, S_0) = \mathcal{N}(w | 0, \alpha I)$; Likelihood: $p(X, y|w) = \prod_i \sigma(x_i^Tw)^{y_i}(1-\sigma(x_i^Tw))^{1-y_i}$; intractable \\
+Approximate by Laplace's Method:
+$p(w | x, y) = \frac{p(w, x, y)}{p(x, y)} \propto exp(-(-log p(w, x, y))) := exp(-(R(w)))$; $R(w) \approx R(w^*)  +$ \sout{$(w - w^*)^T \nabla R(w^*)$} $+ \frac{1}{2}(w - w^*)^T H_R(w - w^*)$, with $w^* = min_w R(w)$ \\
+$\Rightarrow p(w | x, y) \approx \mathcal{N}(w | w^*, H_R^{-1}(w^*))$
+\\
+% \subsection*{LR, Statistical Learning Approach}
+% \item{\textbf{LR Regression, Statistical Learning:}}
+\textbf{LR, Statistical Learning: } 
+Model: $\mathcal{H} = \{f | f: R^d \rightarrow [0, 1], f(x) = \sigma(w^Tx)\}$ \\
+Loss function:  $\mathcal{L}(y, f(x)) = -logp_{f(x)}(y)$; Expected loss: $\mathbb{E}_{X, y \sim p^*}[\mathcal{L}(y, f(X))] = \mathbb{E}_X\mathbb{E}_{y|X}[-logp_{f(x)}(y)]$; Empirical loss: $\frac{1}{n} \sum_{i \leq n} (-y_i log\sigma (w^Tx_i) - (1 - y_i) log(1 - \sigma(w^T x_i)))$ \textcolor{red}{(same as frequentist approach)}
+\\
+% \subsection*{Bayesian Information Criterion}
+% \item{\textbf{BIC:}}
+\textbf{BIC: } 
+for $S \subseteq \{1, ..., d\}$, $\mathcal{H}_S = \{f: R^{|S|} \rightarrow [0, 1] \}$; When $p(w) = \mathcal{N}(w | m_0, \alpha_0 I)$ (for large $\alpha_0$), $log p(x, y) \approx log p(w^*) + log(x, y | w^*) - \frac{|S|}{2} log(2\pi) - \frac{1}{2} log |H_R| \approx const - \frac{1}{2}(\color{red}{|S| log n - 2 log p(x, y | w^*)}$$)$; Lower BIC, better model.

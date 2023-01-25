@@ -1,0 +1,21 @@
+% -*- root: Main.tex -*-
+\section{Ensemble Methods}
+\textbf{Bagging: } 
+% \subsection*{Bagging (Bootstrapping + Aggregating)}
+% $\mathbb{E}[(y - b^{(M)}(x))^2] \leq \mathbb{E}[(y - b(x))^2]$; 
+% Proof: 
+$\mathbb{E}[(y - b^{(M)}(x))^2] = bias^2(b^{(M)}(x)) + var(b^{(M)}(x)) = bias^2(b(x)) + \frac{1}{M}var(b(x)) \leq \mathbb{E}[(y - b(x))^2]$; Random Forests chooses m random features at each splitting step (i.d. base models). Randomized feature selection induces implicit regularization; no overfitting
+\\
+% \subsection*{AdaBoost}
+\textbf{AdaBoost: } 
+$b^{(0)} = 0, w_i^{(0)} = \frac{1}{n}$; 1) $b^{(t)} = min_{\beta}\Sigma_{i}w_{i}^{(t)}\mathbb{I}\{b(x_i)\neq y_i\}$ 2) Evaluate $err_t$ 3) $\tilde{\alpha_t} = \frac{1}{2}log(\frac{1-err_t}{err_t})$, $b^{(t)}= b^{(t-1)} + \tilde{\alpha_t}b^{(t)}$ 4) $w_i^{(t+1)} = w_i^{(t)}exp(-\tilde{\alpha}_ty_ib^{(t)})$ 5) Renormalize $w^{(t+1)}$; Output $\sum(\tilde{\alpha_i}(b^{i}(x))$ \\
+Forward stagewise additive modeling:
+Proof of 3): $\mathbb{E}[f(x)] := \mathbb{E}[exp(-yf(x))] = P(Y=1|X = x)exp(-f(x))+P(Y=-1|X = x)exp(f(x))$\\
+$\frac{\partial \mathbb{E}[f(x)]}{\partial f(x)} = 0 \Rightarrow f^*(x) = \frac{1}{2}\frac{P(Y=1|X = x)}{P(Y=-1|X = x)}$; Proof of 1): $min_{\alpha>0, b\in\mathcal{H}} \sum_i \mathcal{L}(y_i, \alpha b(x_i) + f_{t-1}(x_i) = min_{\alpha, b}\sum_i w_i^{(t)} exp(-\alpha y_i b(x_i))= \min_{\alpha, b}\sum_{i, y_i \neq b(x_i)}w_i^{(t)}e^\alpha + (\sum_iw_i^{(t)}e^{-\alpha} - \sum_{i, y_i \neq b(x_i)}w_i^{(t)}e^{-\alpha})$ ; $w_i^{(t)} = exp(-y_if_{(t-1)}(x_i))$
+\\
+\textbf{Gradient Boosting: } 
+% \subsection*{Gradient Boosting}
+$\hat{f}_0(x) = min_{h}\Sigma_{i=1}^{n}(y_i - h(x_i))^2$; 1) $g_t(x_i) = [\frac{\partial \mathcal{L}(y_i, f(x_i))}{\partial f(x_i)}]_{f=\hat{f}_{t-1}(x_i)}$ 2)$h_t = min_h \Sigma_i (-g_t(x_i) - h(x_i))$ 3)$\beta_t = min_{\beta}\Sum_i \mathcal{L}(y_i, \hat{f}_{t-1}(x_i)+\beta h_t(x_i))$ 4)$\hat{f}_{t}(x) = \hat{f}_{t-1}+\beta_t h_t (x)$; Output $\hat{f}_{t}$;
+% Adaboost is GB with $\mathcal{L}(y, \hat{y}) = exp(-y\hat{y})$
+% \subsection*{Differences between Bagging and Boosting}
+% Bagging: randomized, give same importance to all models; Boosting: deterministic, weights weak learners acc. to performances

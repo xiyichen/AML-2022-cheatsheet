@@ -1,0 +1,44 @@
+% -*- root: Main.tex -*-
+\section{Deep Learning \& Generative Models}
+% \subsection*{Robbins-Monro Method}
+% \item{\textbf{Robbins-Monro Method:}}
+\textbf{Robbins-Monro Method: } 
+$X_{n+1} = X_{n} - \alpha_n (f(x_n) + \gamma_n)$; Conditions: 1) $lim_{n\rightarrow \infty}\alpha_n = 0$ (convergence) 2) $\sum_{n=1}^{\infty}\alpha_n = \infty$ (slow enough to find root) 3) $\sum_{n=1}^{\infty}\alpha_n^{2} < \infty$  (bounded variance); Proof:
+$x_{n+1} - x_0 = x_n - x_0 - \alpha_n (f(x_n) + \gamma_n) \Leftrightarrow \mathbb{E}[(x_{n+1} - x_0)] = \mathbb{E}[(x_{n} - x_0)] - 2\alpha_n \mathbb{E}[(x_{n+1} - x_0)(f(x_n)+\gamma_n)] + \alpha_n^2 \mathbb{E}[f^2(x_n)+2f(x_n)\gamma_n+\gamma_n^2] = \mathbb{E}[(x_{n} - x_0)] + \alpha_n^2 \mathbb{E}[(x_n - x_0)f(x_n)] - 2\alpha_n\mathbb{E}[\gamma_n^2]$; Iterate n-1 times to reduce $x_n$ s.t. $\mathbb{E}[(x_{n+1} - x_0)] - \mathbb{E}[(x_1 - x_0)] \leq (b + \sigma^2) \sum_{i=1}^{n-1}\alpha_i^2 - 2\sum_{i=1}^{n-1}\alpha_i\mathbb{E}[(x_i - x_0)f(x_i)]$; LHS bounded from below \& RHS $\rightarrow -\infty$ iff $(x_i - x_0)f(x_i) \geq 0 \Rightarrow lim_{n\rightarrow \infty} P(x_n = x_0) = 1$.
+\\
+\textbf{Optimality for step size: } 
+% Update rule derivation:
+$f(x_n + \Delta x) = f(x_n) + \nabla f(x_n)^T\Delta x + \frac{1}{2}\Delta x^T H \Delta x$; Since $\Delta x = x_{n+1} - x_n = -\alpha_n \nabla f(x_n)$, $f(x_{n+1}) = f(x_n) - \alpha_n \nabla f(x_n)^T\nabla f(x_n) + \frac{1}{2}\alpha_n^2 \nabla f(x_n)^T H \nabla f(x_n)$;
+Assume $\frac{\partial}{\partial \alpha_n}f(x_{n+1}) = \frac{\partial}{\partial \alpha_n}f(x_0) = 0 \Leftrightarrow \alpha_n  = \frac{\nabla f^T \nabla f}{\nabla f^T H \nabla f} = H^{-1}$
+\\
+% \subsection*{SGD}
+% \item{\textbf{SGD:}}
+\textbf{SGD: } 
+Nesterov Momentum: $y_{n+1} = x_n + \beta(x_n - x_{n-1})$; $x_{n+1} = y_{n+1} - \alpha_n \nabla f(y_{n+1})$ for $\beta > 0$; SGD with Momentum: $x_{n+1} = y_{n+1} - \alpha_{n} \nabla f_{I(n)}(y_{n+1})$ with $I(n) \sim \text{Unif}\{1, ..., n\}$; Sign SGD: $x_{n+1} = x_n - \alpha_n sign(\nabla f_{I(n)}(x_n))$; Mini-batch: $x_{n+1} = x_n - \alpha_n \frac{1}{B}\sum_{i \in B}^n \nabla f_i(x_n)$; Unbiased grad: $\mathbb{E}_{I(n)}[\nabla f_{I(n)}] = \frac{1}{n}\sum_{i=1}^{n}\nabla f_i(x) = \nabla f(x)$
+\\
+\textbf{VAEs: } 
+% \subsection*{VAEs}
+% \item{\textbf{VAE:}}
+Problem: $max_{\theta} p_{\theta}(x) = \int p_{\theta}(z)p_{\theta}(x|z)dz$ is intractable; Solution: define encoder $q_{\theta}(z | x)$ that approximates $p_{\theta}(z|x)$; $log p_{\theta}(x) = \mathbb{E}_{z \sim q_{\theta}(z|x_i)}[log p_{\theta}(x_i)] = \mathbb{E}_z[log\frac{p_{\theta}(x_i|z)p_{\theta}(z)}{p_{\theta}(z|x_i)}\frac{q_{\theta}(z|x_i)}{q_{\theta}(z|x_i)}] = \mathbb{E}_z[log p_{\theta}(x_i | z)] - \mathbb{E}_z[log\frac{q_{\theta}(z|x_i)}{p_\theta(z)}] + \mathbb{E}_z[log\frac{q_{\theta}(z|x_i)}{p_\theta(z|x_i)}] = $\\
+$\color{red}{\mathbb{E}_z[log\frac{q_{\theta}(z|x_i)}{p_\theta(z)}] - KL(q_{\theta}(z|x_i) || p_{\theta}(z))}$ $ + KL(q_{\theta}(z|x_i) || p_{\theta}(z|x_i))\geq \color{red}{\mathcal{L}(x_i; \theta, \phi)}$ \textcolor{red}{(ELBO)}\\
+\textbf{HVAEs: }Hierarchical latent vectors, top-down shared model with learnable mean and variance to keep long-range data correlations and avoid posterior collapse 
+\\
+\textbf{GANs: } 
+% \subsection*{GANs}
+% Generative network tries to fool the discriminator by generating fake data G(z) from noise z; Discriminator tries to distinguish between real and fake data; 
+Objective: $\color{red}{min_G}\color{blue}{max_D}$\\$\color{blue}{\{\mathbb{E}_{x\sim p_{data}(x)}[log D(x)]}$$+$$\color{red}{\mathbb{E}_{z\sim p(z)}[log(1-D(G(z)]\}}$ \\
+This loss is essentially 2 KL divergences. At early stages, the 2 distributions don't overlap substantially, which leads to \textcolor{red}{vanishing gradient}. Solution: Wasserstein Distance $WG_r(p_1, p_2) = (\mathbb{E}_{x\sim p_1, y\sim p_2}[||x-y||^r])^{\frac{1}{r}}$ \\
+\textbf{Extracting representations invariant from domains: }
+Conditional GANs: $D \subseteq W \times X \times y$ 1) $E: X \rightarrow Z$ 2) $F: Z \rightarrow [0,1]^y$ 3) $D: Z \times y \rightarrow [0,1]^W$ Objective: $\color{red}{min_{E,F}}$ $\color{blue}{max_D}$ $\color{red}{\mathbb{E}_X[CE(p(y|x), \hat{p}_{E(X)}(\cdot))]}$ $-$ $\color{blue}{\lambda \mathbb{E}_{X,y}[CE(p_{w|x,y}, \hat{p}_{E(X), y}(\cdot))]}$\\
+Maximum-mean discrepency: Goal: view representations from 2 domains as 2 samples from the same distribution. 
+$MMD(p, q) = sup_{f \in \mathcal{F}}(\mathbb{E}_{X\sim p}[f(X)] - \mahbb{E}_{y\sim q}[f(y)])^2 \approx sup_{f \in \mathcal{H}_0}(\sum_i w_i \mathbb{E}[x_i] - \sum_i w_i \mathbb{E}[y_i]) = sup_{f \in \mathcal{H}_0}(w^T(\mathbb{E}[x^i])-w^T(\mathbb{E}[y^i])) = sup_{f \in \mathcal{H}_0}\langle f, \mu_p-\mu_q \rangle = ||\mu_p - \mu_q||^2 = \mathbb{E}[\sum_i \phi_i(x_1)\phi_i(x_2) - 2\sum_i \phi_i(x) \phi_i(y) + \sum_i \phi_i(y_1)\phi_i(y_2)]$; Objective: $min_{E,F}\mathcal{L}_C(E,F)+\lambda \hat{\mathcal{L}}_{MMD}(E)$
+\\
+\textbf{Diffusion Models: } 
+% \subsection*{Diffusion Models}
+$Z_i = \beta_i z_{i-1} + \beta_i \epsilon$, $\epsilon \sim \mathcal{N}(0, I)$, $q(z_i|z_{i-1}) = \mathcal{N}(z_i|\beta_i z_{i-1}, \beta_i I)$; $q(z_t | x) = q(z_t|z_{t-1}) ... q(z_1|x) = \mathcal{N}(z_t|\beta_t z_{t-1}, \beta I) ... \mathcal{N}(z_t|\beta_1 x, \beta_1 I) = \mathcal{N}(z_t|\sqrt{\tilde{\alpha_t}}x, (1-\tilde{\alpha_t})I)$, where $\tilde{\alpha_t} = \prod_s(1-\beta_s)$; Forward posterior: $q(z_{t-1}|z_t, x) = \mathcal{N}(z_{t-1}|\tilde{\mu}_t(z_t, x), \tilde{\beta}_tI)$, where $\tilde{\mu}_t = \frac{\sqrt{\tilde{\alpha}_{t-1}}\beta_t}{1 - \tilde{\alpha}_{t}}x + \frac{\sqrt{1-\beta_t}(1-\tilde{\alpha}_{t-1})}{1 - \tilde{\alpha}_{t}}z_t$, $\tilde{\beta_t} = \frac{1-\tilde{\alpha}_{t-1}}{1 - \tilde{\alpha}_{t}}\beta_t$; New ELBO: $\mathbb{E}[logp(x|z_1)] - KL(q(z_n|x)||p(z_n)) - \sum_i\mathbb{E}[KL(q(z_{i-1}|z_i, x)||p(z_{i-1}|z_i))]$
+
+% \subsection*{Kiefer-Wolfowitz} 
+% Conditions: 1) $lim_{n\rightarrow \infty}\alpha_n = lim_{n\rightarrow \infty}c_n = 0$ 2) $\sum_{n=1}^{\infty}\alpha_n = \infty$ 3) $\sum_{n=1}^{\infty}(\frac{\alpha_n}{c_n})^{2} < \infty$
+% \\
+% \subsection*{Optimality for step size}
+% \item{\textbf{Optimal step size:}}
