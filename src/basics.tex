@@ -9,8 +9,7 @@ $X {\sim} \mathcal{N}(\mu,\Sigma)$, $Y{=}A{+}BX \Rightarrow Y{\sim}\mathcal{N}(A
 $log(\mathcal{N}(x|\mu, \Sigma)) = \frac{1}{2}log|\Sigma^{-1}|- \frac{1}{2}(x - \mu)^T\Sigma^{-1}(x - \mu) + const \Rightarrow \frac{\partial log\mathcal{N}(x|\mu, \Sigma)}{\mu} = \Sigma^{-1}(x - \mu)$, $\frac{\partial log\mathcal{N}(x|\mu, \Sigma)}{\Sigma^{-1}} = \frac{1}{2}\Sigma - \frac{1}{2}(x - \mu)(x - \mu)^T$
 % Derivation: let $\wedge = \Sigma^{-1}$, $\frac{\partial}{\partial \wedge} (x - \mu)^T \wedge (x - \mu) = \frac{\partial}{\partial \wedge} Tr(x - \mu) (x - \mu)^T \wedge)$
 
-f(x) on a: $f(a)+\tfrac{f'(a)}{1!}(x-a) + \tfrac{f''(a)} {2!}(x-a)^2 + ...$ \\
-
+f(x) on a: $f(a)+\tfrac{f'(a)}{1!}(x-a) + \tfrac{f''(a)} {2!}(x-a)^2 + ...$
 % Cond. Gaussian: 
 $p(\begin{bmatrix}a_1\\a_2\end{bmatrix}) = \mathcal{N}(\begin{bmatrix}u_1\\u_2\end{bmatrix}, \begin{bmatrix}\Sigma_{11} \Sigma_{12}\\ \Sigma_{21} \Sigma_{22}\end{bmatrix})$,
 $p(a_2 | a_1) = \mathcal{N}(u_2 + \Sigma_{21}\Sigma_{11}^{-1}(a_1-u_1), \Sigma_{22}-\Sigma_{21}\Sigma_{11}^{-1}\Sigma_{12})$
@@ -54,6 +53,7 @@ $p(a_2 | a_1) = \mathcal{N}(u_2 + \Sigma_{21}\Sigma_{11}^{-1}(a_1-u_1), \Sigma_{
 	\item $\nabla \text{sigmoid}(x) = \text{sigmoid}(x)(1-\text{sigmoid}(x))$
 	% \item $\nabla \text{tanh}(x) = 1-\text{tanh}^2(x)$ 
 	% \item $tanhx {=} \frac{sinhx}{coshx} {=} \frac{e^{x}-e^{-x}}{e^{x} + e^{x}}$
+ \item $CE(y, \hat{y}) = -(y\text{log}\hat{y}+(1-y)\text{log}(1-\hat{y}))$
 \end{inparaitem}
 % \subsection*{Bayes' Rule}
 % $ P(Y|X) = \frac{P(X|Y)P(Y)}{P(X)}\frac{P(X|Y)P(Y)}{\sum\limits^k_{i=1}P(X|Y_i)P(Y_i)}$\\

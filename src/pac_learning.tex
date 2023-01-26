@@ -12,5 +12,5 @@ $p(S_n - \mathbb{E}_XS_n \geq t) \geq exp(-\frac{2t^2}{\sum_i (b_i - a_i)^2})$; 
 \textbf{VC Inequality (distribution independent): } For finite $\mathcal{C}$, $p(\mathcal{R}(\hat{c}_n^*) - inf_{c \in \mathcal{C}}(\mathcal{R}(c)) \geq \epsilon) \leq p(\mathcal{R}(\hat{c}_n^*) - \hat{\mathcal{R}}(\hat{c}_n^*) + \hat{\mathcal{R}}(\hat{c}_n^*) - \mathcal{R}(c^*) \geq \epsilon) \leq p(2sup_{c}|\hat{\mathcal{R}}_n(c) - \mathcal{R}(c)| > \epsilon)$
 % ; For infinite $\mathcal{C}$: $\leq 9n^{VC_\mathcal{C}}exp(-\frac{n\epsilon^2}{32})$; 
 % For finite $\mathcal{C}$: 
-$\leq \sum_{c \in \mathcal{C}}p(|\hat{\mathcal{R}}_n(c) - \mathcal{R}(c)| > \epsilon) \leq 2|\mathcal{C}|exp(-2n\epsilon^2) \Rightarrow R(c)$ \textcolor{red}{exp.} $ \leq \hat{R}_n(c) $ \textcolor{red}{emp.} $ + \sqrt{\frac{ln |\mathcal{C}| - ln(\delta / 2)}{2n}}$
+$\leq \sum_{c \in \mathcal{C}}p(|\hat{\mathcal{R}}_n(c) - \mathcal{R}(c)| > \epsilon) \leq 2|\mathcal{C}|exp(-2n\epsilon^2) \Rightarrow R(c)$ \textcolor{red}{exp.} $ \leq \hat{R}_n(c) $ \textcolor{red}{emp.} $ + \sqrt{\frac{ln |\mathcal{C}| - ln(\delta / 2)}{2n}}$ \textcolor{red}{var.}
 % , using Hoeffding's: $p(S_n - \mathbb{E}_XS_n \geq t) \geq exp(-\frac{2t^2}{\sum_i (b_i - a_i)^2})$ for $b_i = 1, a_i = 0$
